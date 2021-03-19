@@ -78,38 +78,32 @@ function displayPokemonList(pokemonList) { // load pokemon ino the pokemonListVi
 }
 
 function displayPokemonData(pokemon) {
-    // will clear the view of any previously loaded pokemon data
-    while(pokemonDataSection.firstChild) {
-        pokemonDataSection.removeChild(pokemonDataSection.firstChild);
-    }
-    // a way to access the HTML elements
-    const pokemonImageElement = pokemonDataSection.querySelector("#pokemon-image");
-
     // references to the pokemon data we need to display
     let name = pokemon.name
     let stats = pokemon.stats;
     let abilities = pokemon.abilities;
-    let forms = pokemon.forms;
     let moves = pokemon.moves;
     let image = pokemon.sprites.other["official-artwork"]["front_default"]
 
-    // create an h1 element, define the classes the element should have, add some innerText, and add it to the view
-    let header = document.createElement("h4");
-    header.setAttribute("class", "h4 text-center")
-    header.innerText = "Data";
-    pokemonDataSection.appendChild(header);
+    // references to the view elements where the data needs to be displayed
+    let imgElem = pokemonDataSection.querySelector("#pokemon-image");
+    let nameElem = pokemonDataSection.querySelector("#pokemon-name");
+    let statsElem = pokemonDataSection.querySelector("#pokemon-stats");
+    let abilitiesElem = pokemonDataSection.querySelector("#pokemon-abilities");
+    let movesElem = pokemonDataSection.querySelector("#pokemon-moves");
 
-    console.log("Name:", name);
-    console.log("Stats:", stats);
-    console.log("Abilities:", abilities);
-    console.log("Forms:", forms);
-    console.log("Moves:", moves);
-    console.log("Image:", image);
+    imgElem.src = image;
+    nameElem.innerText = name;
+    nameElem.style.textTransform = "capitalize"
+    
+    //TODO: Still need to define
+    //    stats => statsElem
+    //    abilities => abilitiesElem
 
-    
-
-    
-    
+    // will clear the view of any previously loaded pokemon data
+    // while(pokemonDataSection.firstChild) {
+    //     pokemonDataSection.removeChild(pokemonDataSection.firstChild);
+    // }
 }
 
 function createListLinks(list, parentElement, clickEventHandler) { // create anchor tags for the provided list, adds the anchor tag to the parentElement, and assigns an event listner to each anchor tag
