@@ -1,7 +1,12 @@
-const baseURL = "https://pokeapi.co/api/v2/type/"
-const navbar = document.querySelector(".nav"); // allows access to the navbar on html page
+const pokemonTypeURL = "https://pokeapi.co/api/v2/type/";
+const pokemonURL = "https://pokeapi.co/api/v2/pokemon/";
 
-let currentlyActiveLink;
+const pokemonTypesListView = document.querySelector("#type-list"); // allows access to the pokemonTypesList on the html page
+const pokemonListView = document.querySelector("#pokemon-list"); // allows access to the pokemonList on the html page
+// pokemonListView.style.display = "none";
+
+let currentlyActiveTypeLink; // used to keep track of which pokemen type was clicked in typeListLinkCicked()
+let currentlyActivePokemonLink; // used to keep track of which pokemen type was clicked in currentlyActivePokemonLink()
 
 
 function fetchPokemonTypes(url) { // fecth pokemon types using a provided url
@@ -19,48 +24,101 @@ function checkForOkResponse(response) { // Used to handle all errors from fetch 
     return response.json(); // return our response, once it has been checked
 }
 
-function displayPokemonTypesList(results) {
-    let pokemonTypes = results.results; // array of pokemonTypes
+function displayPokemonTypesList(typesList) { // loads pokemonTypes into the pokemoneTypesListVie
+    let pokemonTypes = typesList.results; // array of pokemonTypes
+    createListLinks(pokemonTypes, pokemonTypesListView, typeListLinkClicked); // call createListLinks passing in our list of pokemonTypes, where the list should show, and a click event handler
+}
 
-    pokemonTypes.forEach((type) => { // forEach pokemon type
-        let a = document.createElement("a"); // create a anchor tag
-        // set class attribute
-        a.setAttribute("class", "nav-link")
-        // define innerText
-        a.innerText = type.name;
-        // capitalize first letter of the innerText
-        a.style.textTransform = "capitalize";
-        // add the new anchor tag to the navbar
-        navbar.appendChild(a);
+function displayPokemonList(pokemonList) { // load pokemon ino the pokemonListView
+    // When a pokemonType has been selected, we need to update the pokemonList to reflect this change
+    while(pokemonListView.firstChild) {
+        pokemonListView.removeChild(pokemonListView.firstChild);
+    }
+    let header = document.createElement("h6");
+    header.innerText = "Pokemon";
+    pokemonListView.appendChild(header);
 
-        // add an event listener to the anchor tag
-        a.addEventListener("click", typeListLinkClicked);
+    let pokemon = [];
+    pokemonList.pokemon.forEach((pokeman) => {
+        pokemon.push(pokeman.pokemon);
+    })
+
+    createListLinks(pokemon, pokemonListView, pokemonListLinkClicked);
+    
+}
+
+function createListLinks(list, parentElement, clickEventHandler) { // create anchor tags for the provided list, adds the anchor tag to the parentElement, and assigns an event listner to each anchor tag
+    // console.log(list);
+    list.forEach((item) => { // forEach item in the list
+        let a = document.createElement("a"); // create an anchor tag
+        a.setAttribute("class", "nav-link") // give it the class of nav-link
+        a.innerText = item.name; // set the innerText to that of the item.name
+        a.style.textTransform = "capitalize"; // capitalize the first letter of innerText
+        parentElement.appendChild(a) // add the anchor tag to the parentElement that this list should be seen in
+
+        if (clickEventHandler) { // check to see if a clickEventHandler has been provided
+            a.addEventListener("click", clickEventHandler); // add an eventListenerHandler to handle click events
+        }
     })
 }
 
 // Event Listener Handlers
 function typeListLinkClicked(event) {
     // event.target.innerHTML returns "normal" while innerText returns "Normal"
-    let queryURL = baseURL + event.target.innerHTML; // add innerHTML to baseURL
+    let queryURL; // placeholder for our new url that we will create
     let newlyClickedLink = event.target; // provides a reference to the newlyClickedLink
     
-    if (currentlyActiveLink === undefined) { // check to see if undefined
-        console.log("no current active links, set clicked link active");
-        currentlyActiveLink = newlyClickedLink;
-    } else if (currentlyActiveLink !== newlyClickedLink) {
-        console.log("newly clicked link does not match current active link, set current active to new clicked link");
-        currentlyActiveLink = newlyClickedLink;
+    if (currentlyActiveTypeLink === undefined) { // check to see if undefined
+        // console.log("no current active links, set clicked link active");
+        newlyClickedLink.setAttribute("class", "nav-link active"); // add the active class and keep the nav-link class for the newlyClickedLink
+        currentlyActiveTypeLink = newlyClickedLink; // define the currentlyActiveTypeLink to be that of the newlyClickedClink
+        queryURL = pokemonTypeURL + newlyClickedLink.innerHTML; //
+    } else if (currentlyActiveTypeLink !== newlyClickedLink) {
+        // console.log("newly clicked link does not match current active link, set current active to new clicked link");
+        newlyClickedLink.setAttribute("class", "nav-link active"); // add the active class and keep the nav-link class for the newlyClickedLink
+        currentlyActiveTypeLink.setAttribute("class", "nav-link"); // removes the active class and keeps the nav-link class on the now old currentlyActiveTypeLink
+        currentlyActiveTypeLink = newlyClickedLink; // sets the newlyClickedLink as the currentlyActiveTypeLink
+        queryURL = pokemonTypeURL + event.target.innerHTML;
     } else {
-        console.log("nothing todo here, same link clicked");
-    }
+        queryURL = pokemonTypeURL + newlyClickedLink.innerHTML; // same link clicked
+        // console.log("same type link clicked");
+    } // nothing else todo, we checked to make sure the currentlyActiveTypeLink is not falsey and we checked to make sure that currentlyActiveTypeLink and the newlyClickedLink do not match
     
     // fetch a new request to get the new data
     fetch(queryURL)
         .then(checkForOkResponse) // check to see if the response is ok
-        .then(data => console.log("Type Link clicked",data)) // log the response data, if ok, to see how to handle processing further
+        .then(displayPokemonList) // TODO: log the response data, if ok, how to handle processing further
         .catch(console.error) // console.error log any catch errors that may have been found
     // console.log(event);
 }
 
-fetchPokemonTypes(baseURL);
+function pokemonListLinkClicked(event) {
+    // event.target.innerHTML returns "normal" while innerText returns "Normal"
+    let queryURL; // placeholder for our new url that we will create
+    let newlyClickedLink = event.target; // provides a reference to the newlyClickedLink
+    
+    if (currentlyActivePokemonLink === undefined) { // check to see if undefined
+        // console.log("no current active links, set clicked link active");
+        newlyClickedLink.setAttribute("class", "nav-link active"); // add the active class and keep the nav-link class for the newlyClickedLink
+        currentlyActivePokemonLink = newlyClickedLink; // define the currentlyActivePokemonLink to be that of the newlyClickedClink
+        queryURL = pokemonURL + newlyClickedLink.innerHTML; //
+    } else if (currentlyActivePokemonLink !== newlyClickedLink) {
+        // console.log("newly clicked link does not match current active link, set current active to new clicked link");
+        newlyClickedLink.setAttribute("class", "nav-link active"); // add the active class and keep the nav-link class for the newlyClickedLink
+        currentlyActivePokemonLink.setAttribute("class", "nav-link"); // removes the active class and keeps the nav-link class on the now old currentlyActivePokemonLink
+        currentlyActivePokemonLink = newlyClickedLink; // sets the newlyClickedLink as the currentlyActivePokemonLink
+        queryURL = pokemonURL + event.target.innerHTML;
+    } else {
+        queryURL = pokemonURL + newlyClickedLink.innerHTML; // same link clicked
+        // console.log("same type link clicked");
+    } // nothing else todo, we checked to make sure the currentlyActivePokemonLink is not falsey and we checked to make sure that currentlyActivePokemonLink and the newlyClickedLink do not match
+    
+    // fetch a new request to get the new data
+    fetch(queryURL)
+        .then(checkForOkResponse) // check to see if the response is ok
+        .then(console.log) // TODO: log the response data, if ok, how to handle processing further
+        .catch(console.error) // console.error log any catch errors that may have been found
+    // console.log(event);
+}
 
+fetchPokemonTypes(pokemonTypeURL);
