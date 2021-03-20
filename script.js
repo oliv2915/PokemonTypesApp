@@ -91,10 +91,13 @@ function displayPokemonData(pokemon) {
     let statsElem = pokemonDataSection.querySelector("#pokemon-stats");
     let abilitiesElem = pokemonDataSection.querySelector("#pokemon-abilities");
     let movesElem = pokemonDataSection.querySelector("#pokemon-moves");
-
+    // sets the name and image
     imgElem.src = image;
     nameElem.innerText = name;
     nameElem.style.textTransform = "capitalize"
+
+    displayStats(stats, statsElem);
+    displayAbilities(abilities, abilitiesElem);
     
     //TODO: Still need to define
     //    stats => statsElem
@@ -104,6 +107,20 @@ function displayPokemonData(pokemon) {
     // while(pokemonDataSection.firstChild) {
     //     pokemonDataSection.removeChild(pokemonDataSection.firstChild);
     // }
+}
+
+function displayAbilities(abilities, parentElement) {
+    
+}
+
+function displayStats(stats, parentElement) { // HP: 40 | ATTACK: 80 | DEFENSE: 35
+    let hp = stats[0];
+    let attack = stats[1];
+    let defense = stats[2];
+
+    let statString = `HP: ${hp["base_stat"]} | ATTACK: ${attack["base_stat"]} | DEFENSE: ${defense["base_stat"]}`
+
+    parentElement.innerText = statString;
 }
 
 function createListLinks(list, parentElement, clickEventHandler) { // create anchor tags for the provided list, adds the anchor tag to the parentElement, and assigns an event listner to each anchor tag
