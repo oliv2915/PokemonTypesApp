@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Types of Pokemon</title>
+        <title>Pokemon Card</title>
         <!-- Bootstrap CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
         <!-- Site CSS -->
@@ -12,36 +12,89 @@
     </head>
     <body class="container-fluid">
         <div class="row">
-            <nav class="nav flex-column col-1" id="type-list">
-                <!-- Pokemon Type List -->
-            </nav>
-
-            <nav class="nav flex-column col-1" id="pokemon-list">
-                <!-- Pokemon List -->
-            </nav>
-
-            <section class="col-10" id="pokemon-data">
-                <!-- Pokemon Data Section -->
-                <h4 class="h4 text-center">Data</h4>
-                <div class="card mb-3">
-                    <div class="row g-0">
-                        <div class="col-md-4">
-                            <img id="pokemon-image" class="card-img" src="" alt="">
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card-body">
-                                <h3 class="card-title" id="pokemon-name"></h3>
-                                <p class="card-text" id="pokemon-stats"></p>
-                                <p class="card-text" id="pokemon-abilities"></p>
-                                <p class="card-text" id="pokemon-moves"></p>
-                            </div>
+            <!-- Types Card -->
+            <div class="col-2">
+                <div class="card text-center">
+                    <div class="card-header">
+                        <h5 class="card-title">Select Type</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="list-group list-group-flush" id="type-list">
+                            
                         </div>
                     </div>
                 </div>
-                <p>Built using <a href="https://pokeapi.co/" target="_blank" >PokéAPI</a></p>
-            </section>
+            </div>
+            <!-- Pokemon Card -->
+            <div class="col-2">
+                <div class="card text-center">
+                    <div class="card-header">
+                        <h5 class="card-title">Select Pokémon</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="list-group list-group-flush" id="pokemon-list">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Data Card -->
+            <div class="col-8">
+                <div class="card text-center">
+                    <!-- Card Title -->
+                    <div class="card-header">
+                        <h5 class="card-title">Information</h5>
+                    </div>
+                    <div id="pokemon-data" class="row">
+                        <!-- Image -->
+                        <div class="col-md-4">
+                            <h3 id="pokemon-name" class="card-subtitle text-muted mt-2"></h3>
+                            <h6 id="pokemon-type" class="card-subtitle text-muted"></h6>
+                            <img id="pokemon-image" src="" alt="" class="card-img-top">
+                        </div>
+                        <!-- Data -->
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <!-- Stats Card -->
+                                <div class="card">
+                                    <div class="card-header p-0">
+                                        <h6 class="card-title">Stats</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <!-- Stats Data Loaded Here -->
+                                        <span id="hp-stat" class="badge bg-success">hp</span>
+                                        <span id="attack-stat" class="badge bg-danger"></span>
+                                        <span id="defense-stat" class="badge bg-secondary"></span>
+                                        <span id="special-attack-stat" class="badge bg-danger"></span>
+                                        <span id="special-defense-stat" class="badge bg-secondary"></span>
+                                        <span id="speed-stat" class="badge bg-info"></span>
+                                    </div>
+                                </div>
+                                <!-- Abilities Card -->
+                                <div class="card text-center mt-2">
+                                    <div class="card-header p-0">
+                                        <h6 class="card-title">Abilities</h6>
+                                    </div>
+                                    <div id="abilites" class="card-body">
+                                        <!-- Abilities Data Loaded Here -->
+                                    </div>
+                                </div>
+                                <!-- Moves Card -->
+                                <div class="card text-center mt-2">
+                                    <div class="card-headerp-0">
+                                        <h6 class="card-title">Moves</h6>
+                                    </div>
+                                    <div id="moves" class="card-body">
+                                    <!-- Moves Data Loaded Here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center">API provided by <a href="https://pokeapi.co/" target="_blank">PokéAPI</a></div>
+                </div>
+            </div>
         </div>
-        
         <!-- Bootstrap JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
         <!-- Sitle JS -->
