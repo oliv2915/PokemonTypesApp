@@ -10,7 +10,7 @@
         <!-- Site CSS -->
         <link rel="stylesheet" href="./styles.css">
     </head>
-    <body class="container-fluid">
+    <body class="container-fluid mt-3">
         <div class="row">
             <!-- Types Card -->
             <div class="col-md-2">
@@ -39,29 +39,30 @@
                 </div>
             </div>
             <!-- Data Card -->
-            <div class="col-md-8">
-                <div class="card text-center">
-                    <!-- Card Title -->
+            <div id="pokemon-data" class="col-md-8">
+                <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title">Information</h5>
+                        <h5 class="card-title text-center">Information</h5>
                     </div>
-                    <div id="pokemon-data" class="row">
-                        <!-- Image -->
-                        <div class="col-md-4">
-                            <h3 id="pokemon-name" class="card-subtitle text-muted mt-2"></h3>
-                            <h6 id="pokemon-type" class="card-subtitle text-muted my-2"></h6>
-                            <img id="pokemon-image" src="" alt="" class="card-img-top">
+                    <img id="pokemon-image" src="" alt="" class="card-img-top w-25 m-auto">
+                    <div class="row text-center">
+                        <div class="col-md-6">
+                            <h5 id="pokemon-name" class="card-subtitle text-muted"></h5>
                         </div>
-                        <!-- Data -->
-                        <div class="col-md-8">
-                            <div class="card-body">
-                                <!-- Stats Card -->
+                        <div class="col-md-6">
+                            <h5 id="pokemon-type" class="card-subtitle text-muted"></h5>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <!-- Stats -->
                                 <div class="card">
-                                    <div class="card-header p-0">
-                                        <h6 class="card-title">Stats</h6>
+                                    <div class="card-header">
+                                        <div class="card-title">Stats</div>
                                     </div>
                                     <div class="card-body">
-                                        <!-- Stats Data Loaded Here -->
+                                        <!-- Stats Data -->
                                         <span id="hp-stat" class="badge bg-info text-dark"></span>
                                         <span id="attack-stat" class="badge bg-info text-dark"></span>
                                         <span id="defense-stat" class="badge bg-info text-dark"></span>
@@ -70,22 +71,28 @@
                                         <span id="speed-stat" class="badge bg-info text-dark"></span>
                                     </div>
                                 </div>
-                                <!-- Abilities Card -->
-                                <div class="card mt-2">
-                                    <div class="card-header p-0">
-                                        <h6 class="card-title">Abilities</h6>
+                            </div>
+                            <div class="col-md-6">
+                                <!-- Abilities -->
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="card-title">Abilities</div>
                                     </div>
                                     <div id="abilities" class="card-body">
-                                        <!-- Abilities Data Loaded Here -->
+                                        <!-- Abilities Data -->
                                     </div>
                                 </div>
-                                <!-- Moves Card -->
-                                <div class="card text-center mt-2">
-                                    <div class="card-header p-0">
-                                        <h6 class="card-title">Moves</h6>
+                            </div>
+                        </div>
+    
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="card-title">Moves</div>
                                     </div>
                                     <div id="moves" class="card-body">
-                                    <!-- Moves Data Loaded Here -->
+                                        <!-- Moves Data -->
                                     </div>
                                 </div>
                             </div>
@@ -93,6 +100,7 @@
                     </div>
                     <div class="card-footer text-center">API provided by <a href="https://pokeapi.co/" target="_blank">PokéAPI</a></div>
                 </div>
+
             </div>
         </div>
         <!-- Bootstrap JS -->
