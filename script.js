@@ -69,7 +69,6 @@ function displayPokemonList(pokemonData) { // load pokemon ino #pokemon-list
     }
     
     
-
     // this while statement handles the possiblity for there to already be a list of pokemon in the list view
     // if there are any, remove them from the list
     while(pokemonListView.firstChild) { // while a list item is present
@@ -95,11 +94,31 @@ function displayPokemonData(pokemon) {
 
     // sets the name and image
     pokemonImageElement.src = image;
-    pokemonNameElement.innerText = name;
+    pokemonNameElement.innerText = name.replaceAll("-", " ");
     pokemonNameElement.style.textTransform = "capitalize"
     
     displayStats(stats);
     displayTypes(types);
+    displayAbilities(abilities);
+}
+
+function displayAbilities(pokeAbilities) {
+    const abilitiesElement = document.querySelector("#abilities")
+    while(abilitiesElement.firstChild) { // while a list item is present
+        abilitiesElement.removeChild(abilitiesElement.firstChild); // remove it
+    }
+    let abilities = [];
+    pokeAbilities.forEach((ability) => {
+        abilities.push(ability.ability.name.replaceAll("-", " "))
+    })
+    
+    abilities.forEach((ability) => {
+        let span = document.createElement("span");
+        span.setAttribute("class", "badge bg-warning text-dark m-1");
+        span.innerText = ability;
+        span.style.textTransform = "capitalize";
+        abilitiesElement.appendChild(span);
+    })
 }
 
 function displayTypes(pokeTypes) {
@@ -107,13 +126,15 @@ function displayTypes(pokeTypes) {
     let types = [];
     // push onto the types array the typeName
     pokeTypes.forEach((type) => {
-        types.push(capitalizeFirstLetter(type.type.name));
+        types.push(type.type.name);
     })   
     // check to see if more than one has been provided
     if (types.length !== 1) {
         pokemonTypeElement.innerText = types.join(", ");
+        pokemonTypeElement.style.textTransform = "capitalize"
     } else {
         pokemonTypeElement.innerText = types[0];
+        pokemonTypeElement.style.textTransform = "capitalize"
     }
 }
 
@@ -164,16 +185,13 @@ function displayStats(pokeStats) {
     })
 }
 
-function capitalizeFirstLetter(s) {
-    return s.charAt(0).toUpperCase() + s.slice(1);
-}
-
 function createListLinks(list, parentElement, clickEventHandler) { // create anchor tags for the provided list, adds the anchor tag to the parentElement, and assigns an event listner to each anchor tag
     // console.log(list);
     list.forEach((item) => { // forEach item in the list
         let a = document.createElement("a"); // create an anchor tag
         a.setAttribute("class", "list-group-item list-group-item-action") // give it the class of nav-link
-        a.innerText = item.name; // set the innerText to that of the item.name
+        a.setAttribute("name", item.name);
+        a.innerText = item.name.replaceAll("-", " "); // set the innerText to that of the item.name
         a.style.textTransform = "capitalize"; // capitalize the first letter of innerText
         parentElement.appendChild(a) // add the anchor tag to the parentElement that this list should be seen in
 
@@ -198,14 +216,14 @@ function typeListLinkClicked(event) {
     if (currentlyActiveTypeLink === undefined) { // check to see if undefined
         newlyClickedLink.setAttribute("class", "list-group-item list-group-item-action active"); // add the active class and keep the nav-link class for the newlyClickedLink
         currentlyActiveTypeLink = newlyClickedLink; // sets the currentlyActiveTypeLink to be that of the newlyClickedClink
-        queryURL = pokemonTypesBaseURL + newlyClickedLink.innerHTML; // add newlyClickedLink innerHTML to the queryURL
+        queryURL = pokemonTypesBaseURL + newlyClickedLink.name; // add newlyClickedLink innerHTML to the queryURL
     } else if (currentlyActiveTypeLink !== newlyClickedLink) { // and if it does not match
         newlyClickedLink.setAttribute("class", "list-group-item list-group-item-action active"); // add the active class and keep the nav-link class for the newlyClickedLink
         currentlyActiveTypeLink.setAttribute("class", "list-group-item list-group-item-action"); // removes  active class and keeps the nav-link class on the now old currentlyActiveTypeLink
         currentlyActiveTypeLink = newlyClickedLink; // sets the currentlyActiveTypeLink to be that of the newlyClickedClink
-        queryURL = pokemonTypesBaseURL + newlyClickedLink.innerHTML;  // add newlyClickedLink innerHTML to the queryURL
+        queryURL = pokemonTypesBaseURL + newlyClickedLink.name;  // add newlyClickedLink innerHTML to the queryURL
     } else {
-        queryURL = pokemonTypesBaseURL + newlyClickedLink.innerHTML; // same link clicked
+        queryURL = pokemonTypesBaseURL + newlyClickedLink.name; // same link clicked
         // console.log("same type link clicked");
     } // nothing else todo, we checked to make sure the currentlyActiveTypeLink is not falsey and we checked to make sure that currentlyActiveTypeLink and the newlyClickedLink do not match
     
@@ -222,15 +240,15 @@ function pokemonListLinkClicked(event) {
         // console.log("no current active links, set clicked link active");
         newlyClickedLink.setAttribute("class", "list-group-item list-group-item-action active"); // add the active class and keep the nav-link class for the newlyClickedLink
         currentlyActivePokemonLink = newlyClickedLink; // define the currentlyActivePokemonLink to be that of the newlyClickedClink
-        queryURL = pokemonBaseURL + newlyClickedLink.innerHTML; //
+        queryURL = pokemonBaseURL + newlyClickedLink.name; //
     } else if (currentlyActivePokemonLink !== newlyClickedLink) {
         // console.log("newly clicked link does not match current active link, set current active to new clicked link");
         newlyClickedLink.setAttribute("class", "list-group-item list-group-item-actionr active"); // add the active class and keep the nav-link class for the newlyClickedLink
         currentlyActivePokemonLink.setAttribute("class", "list-group-item list-group-item-action"); // removes the active class and keeps the nav-link class on the now old currentlyActivePokemonLink
         currentlyActivePokemonLink = newlyClickedLink; // sets the newlyClickedLink as the currentlyActivePokemonLink
-        queryURL = pokemonBaseURL + event.target.innerHTML;
+        queryURL = pokemonBaseURL + event.target.name;
     } else {
-        queryURL = pokemonBaseURL + newlyClickedLink.innerHTML; // same link clicked
+        queryURL = pokemonBaseURL + newlyClickedLink.name; // same link clicked
         // console.log("same type link clicked");
     } // nothing else todo, we checked to make sure the currentlyActivePokemonLink is not falsey and we checked to make sure that currentlyActivePokemonLink and the newlyClickedLink do not match
     
