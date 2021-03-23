@@ -100,6 +100,28 @@ function displayPokemonData(pokemon) {
     displayStats(stats);
     displayTypes(types);
     displayAbilities(abilities);
+    displayMoves(moves);
+}
+
+function displayMoves(pokeMoves) {
+    const movesElement = document.querySelector("#moves");
+    while(movesElement.firstChild) { // while a list item is present
+        movesElement.removeChild(movesElement.firstChild); // remove it
+    }
+
+    let moves = [];
+    pokeMoves.forEach((move) => {
+        moves.push(move.move.name.replaceAll("-", " "));
+    })
+
+    moves.forEach((move) => {
+        let span = document.createElement("span");
+        span.setAttribute("class", "badge bg-dark m-1");
+        span.innerText = move;
+        span.style.textTransform = "capitalize";
+        movesElement.appendChild(span);
+    })
+
 }
 
 function displayAbilities(pokeAbilities) {
