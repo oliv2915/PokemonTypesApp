@@ -91,7 +91,6 @@ function displayPokemonData(pokemon) {
 
     // references to the view elements where the data needs to be displayed
     const pokemonNameElement = document.querySelector("#pokemon-name");
-    const pokemonTypeElement = document.querySelector("#pokemon-type");
     const pokemonImageElement = document.querySelector("#pokemon-image");
 
     // sets the name and image
@@ -100,16 +99,25 @@ function displayPokemonData(pokemon) {
     pokemonNameElement.style.textTransform = "capitalize"
     
     displayStats(stats);
-
-    
-    // displayAbilities(abilities, abilitiesElem);
+    displayTypes(types);
 }
 
-function displayAbilities(abilities, parentElement) {
-    
+function displayTypes(pokeTypes) {
+    const pokemonTypeElement = document.querySelector("#pokemon-type");
+    let types = [];
+    // push onto the types array the typeName
+    pokeTypes.forEach((type) => {
+        types.push(capitalizeFirstLetter(type.type.name));
+    })   
+    // check to see if more than one has been provided
+    if (types.length !== 1) {
+        pokemonTypeElement.innerText = types.join(", ");
+    } else {
+        pokemonTypeElement.innerText = types[0];
+    }
 }
 
-function displayStats(pokemonStats) {
+function displayStats(pokeStats) {
     pokemonDataView.style.display = "flex";
     // stats elements
     const hpElement = document.querySelector("#hp-stat");
@@ -122,7 +130,7 @@ function displayStats(pokemonStats) {
    
     let stats = [];
     // forEach stat, build our own object for that stat
-    pokemonStats.forEach(stat => {
+    pokeStats.forEach(stat => {
         stats.push({
             name: stat.stat.name,
             base_stat: stat.base_stat,
@@ -154,6 +162,10 @@ function displayStats(pokemonStats) {
                 break;
         }
     })
+}
+
+function capitalizeFirstLetter(s) {
+    return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
 function createListLinks(list, parentElement, clickEventHandler) { // create anchor tags for the provided list, adds the anchor tag to the parentElement, and assigns an event listner to each anchor tag
