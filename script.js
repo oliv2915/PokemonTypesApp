@@ -2,8 +2,8 @@ const pokemonTypesBaseURL = "https://pokeapi.co/api/v2/type/";
 const pokemonBaseURL = "https://pokeapi.co/api/v2/pokemon/";
 
 
-const pokemonListView = document.querySelector("#pokemon-list"); // allows access to the pokemonList on the html page
-const pokemonDataView = document.querySelector("#pokemon-data");
+const pokemonListView = document.getElementById("pokemon-list"); // allows access to the pokemonList on the html page
+const pokemonDataView = document.getElementById("pokemon-data");
 pokemonDataView.style.display = "none";
 pokemonListView.parentElement.style.display = "none"; // sets the pokemon list card-body element to hidden, this removes the ghost box seen if set to block
 
@@ -41,7 +41,7 @@ function checkForOkResponse(response) { // Used to handle all errors from fetch 
 }
 
 function displayPokemonTypesList(typesList) { // loads pokemonTypes into the pokemoneTypesListView
-    const pokemonTypesListView = document.querySelector("#type-list")
+    const pokemonTypesListView = document.getElementById("type-list")
     let pokemonTypes = typesList.results; // array of pokemonTypes
     createListLinks(pokemonTypes, pokemonTypesListView, typeListLinkClicked); // call createListLinks passing in our list of pokemonTypes, where the list should show, and a click event handler
 }
@@ -80,6 +80,7 @@ function displayPokemonList(pokemonData) { // load pokemon ino #pokemon-list
 }
 
 function displayPokemonData(pokemon) {
+    pokemonDataView.style.display = "block";
     // references to the pokemon data we need to display
     const name = pokemon.name
     const types = pokemon.types
@@ -89,8 +90,8 @@ function displayPokemonData(pokemon) {
     const image = pokemon.sprites.other["official-artwork"]["front_default"]
 
     // references to the view elements where the data needs to be displayed
-    const pokemonNameElement = document.querySelector("#pokemon-name");
-    const pokemonImageElement = document.querySelector("#pokemon-image");
+    const pokemonNameElement = document.getElementById("pokemon-name");
+    const pokemonImageElement = document.getElementById("pokemon-image");
 
     // sets the name and image
     pokemonImageElement.src = image;
@@ -104,7 +105,7 @@ function displayPokemonData(pokemon) {
 }
 
 function displayMoves(pokeMoves) {
-    const movesElement = document.querySelector("#moves");
+    const movesElement = document.getElementById("moves");
     while(movesElement.firstChild) { // while a list item is present
         movesElement.removeChild(movesElement.firstChild); // remove it
     }
@@ -125,7 +126,7 @@ function displayMoves(pokeMoves) {
 }
 
 function displayAbilities(pokeAbilities) {
-    const abilitiesElement = document.querySelector("#abilities")
+    const abilitiesElement = document.getElementById("abilities")
     while(abilitiesElement.firstChild) { // while a list item is present
         abilitiesElement.removeChild(abilitiesElement.firstChild); // remove it
     }
@@ -144,7 +145,7 @@ function displayAbilities(pokeAbilities) {
 }
 
 function displayTypes(pokeTypes) {
-    const pokemonTypeElement = document.querySelector("#pokemon-type");
+    const pokemonTypeElement = document.getElementById("pokemon-type");
     let types = [];
     // push onto the types array the typeName
     pokeTypes.forEach((type) => {
@@ -161,14 +162,13 @@ function displayTypes(pokeTypes) {
 }
 
 function displayStats(pokeStats) {
-    pokemonDataView.style.display = "flex";
-    // stats elements
-    const hpElement = document.querySelector("#hp-stat");
-    const attackElement = document.querySelector("#attack-stat");
-    const defenseElement = document.querySelector("#defense-stat");
-    const specialAttackElement = document.querySelector("#special-attack-stat");
-    const specialDefenseElement = document.querySelector("#special-defense-stat");
-    const speedElement = document.querySelector("#speed-stat");
+        // stats elements
+    const hpElement = document.getElementById("hp-stat");
+    const attackElement = document.getElementById("attack-stat");
+    const defenseElement = document.getElementById("defense-stat");
+    const specialAttackElement = document.getElementById("special-attack-stat");
+    const specialDefenseElement = document.getElementById("special-defense-stat");
+    const speedElement = document.getElementById("speed-stat");
     // placeholders to the data that we need to display
    
     let stats = [];
@@ -194,10 +194,10 @@ function displayStats(pokeStats) {
                 defenseElement.innerText = `DEF: ${stat.base_stat}`;
                 break;
             case "special-attack":
-                specialAttackElement.innerText = `SP-ATK: ${stat.base_stat}`;
+                specialAttackElement.innerText = `SPL-ATK: ${stat.base_stat}`;
                 break;
             case "special-defense":
-                specialDefenseElement.innerText = `SP-DEF: ${stat.base_stat}`;
+                specialDefenseElement.innerText = `SPL-DEF: ${stat.base_stat}`;
                 break;
             case "speed":
                 speedElement.innerText = `SPD: ${stat.base_stat}`;
@@ -222,9 +222,6 @@ function createListLinks(list, parentElement, clickEventHandler) { // create anc
         }
     })
 }
-
-
-fetchPokemonTypes(pokemonTypesBaseURL);
 
 /* 
     EVENT HANDLERS BELOW THIS AREA
@@ -286,3 +283,7 @@ function pokemonListLinkClicked(event) {
         behavior: "smooth"
     })
 }
+
+
+
+fetchPokemonTypes(pokemonTypesBaseURL);

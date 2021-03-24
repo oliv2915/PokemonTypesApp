@@ -1,4 +1,4 @@
-#pokemon-list {
+#type-list, #pokemon-list {
     max-height: 89vh;
     overflow-y: scroll;
 }
