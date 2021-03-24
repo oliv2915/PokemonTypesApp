@@ -251,6 +251,11 @@ function typeListLinkClicked(event) {
     
     // fetchPokemon
     fetchPokemonType(queryURL);
+    window.scrollTo({
+        top:0,
+        left: 0,
+        behavior: "smooth"
+    })
 }
 
 function pokemonListLinkClicked(event) {
@@ -275,4 +280,9 @@ function pokemonListLinkClicked(event) {
     } // nothing else todo, we checked to make sure the currentlyActivePokemonLink is not falsey and we checked to make sure that currentlyActivePokemonLink and the newlyClickedLink do not match
     
     fetchPokemon(queryURL)
+    window.scrollTo({
+        top:0,
+        left: 0,
+        behavior: "smooth"
+    })
 }

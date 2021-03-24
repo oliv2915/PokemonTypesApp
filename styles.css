@@ -1,0 +1,4 @@
+#pokemon-list {
+    max-height: 89vh;
+    overflow-y: scroll;
+}
